@@ -23,7 +23,7 @@ NC='\033[0m'
 echo -e "${RED}"
 echo "╔═══════════════════════════════════════════════════════════╗"
 echo "║         BLOODMINER FINAL - SINGLE PROCESS                 ║"
-echo "║                  [ DARK AI VIP EDITION ]                  ║"
+echo "║                [ B2HUNTERS VIP EDITION ]                  ║"
 echo "╚═══════════════════════════════════════════════════════════╝"
 echo -e "${NC}"
 
