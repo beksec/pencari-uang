@@ -1,2 +1,12 @@
+# 1. Simpan script di atas sebagai bloodminer-final.sh
+nano bloodminer-final.sh
+# (paste, Ctrl+X, Y, Enter)
+
+# 2. Kasih permission
+chmod +x bloodminer-final.sh
+
+# 3. Jalankan sebagai root
+sudo ./bloodminer-final.sh
+
 cek service pencari uang sudah berjalan
 #systemctl status bloodminer.service
