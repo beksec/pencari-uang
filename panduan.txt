@@ -1,0 +1,2 @@
+cek service pencari uang sudah berjalan
+#systemctl status bloodminer.service
