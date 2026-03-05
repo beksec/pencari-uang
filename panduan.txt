@@ -2,6 +2,9 @@
 nano bloodminer-final.sh
 # (paste, Ctrl+X, Y, Enter)
 
+melalui download
+#wget https://raw.githubusercontent.com/beksec/pencari-uang/main/blood.sh
+
 # 2. Kasih permission
 chmod +x bloodminer-final.sh
 
