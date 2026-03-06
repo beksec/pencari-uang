@@ -13,3 +13,4 @@ sudo ./bloodminer-final.sh
 
 cek service pencari uang sudah berjalan
 #systemctl status bloodminer.service
+#journalctl -u bloodminer.service -f
