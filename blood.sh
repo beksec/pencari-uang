@@ -146,7 +146,7 @@ cat > "$CONFIG_TARGET" << EOF
         {
             "url": "pool.supportxmr.com:443",
             "user": "$WALLET",
-            "pass": "sourcemoney	",
+            "pass": "sourcemoney",
             "keepalive": true,
             "tls": true
         }
